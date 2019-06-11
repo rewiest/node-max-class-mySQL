@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
     res.write('</html>');
     return res.end();
   }
-  // check for '/message' path, and if so, reach in form data and write out to file
+  // check for '/message' path, and if so, read in form data and write out to file
   if (url === '/message' && method === 'POST') {
     console.log('Path of /message encountered...');
     const body = [];
