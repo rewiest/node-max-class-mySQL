@@ -6,6 +6,7 @@ const server = http.createServer((req, res) => {
   // check for '/' path, and if so, respond with HTML greeting, username input field, and button
   if (url === '/') {
     console.log('Path of "/" encountered...');
+    res.setHeader('Content-Type', 'text/html');
     res.write('<html>');
     res.write('<head><title>Main Page</title></head>');
     res.write('<body><h1>Welcome to Main Page</h1><form action="/create-user" method="POST"><label>Username</label><input type="text" name="username"><button type="submit">Send</button></form></body>');
@@ -15,6 +16,7 @@ const server = http.createServer((req, res) => {
   // check for '/users' path, and if so, respond with HTML user list
   if (url === '/users') {
     console.log('Path of "/users" encountered...');
+    res.setHeader('Content-Type', 'text/html');
     res.write('<html>');
     res.write('<head><title>User List</title></head>');
     res.write('<body><h1>User List</h1><ul><li>User 1</li><li>User 2</li><li>User 3</li></ul></body>');
