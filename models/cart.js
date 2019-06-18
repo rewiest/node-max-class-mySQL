@@ -8,6 +8,18 @@ const cartPathAndFile = path.join(
 );
 
 module.exports = class Cart {
+
+  static getCart(cb) {
+    fs.readFile(cartPathAndFile, (err, fileContent) => {
+      const cart = JSON.parse(fileContent);
+      if (err) {
+        cb(null);
+      } else {
+        cb(cart);
+      };
+    });
+  };
+
   static addProduct(id, productPrice) {
     // Fetch the previous cart
     fs.readFile(cartPathAndFile, (err, fileContent) => {
@@ -28,7 +40,7 @@ module.exports = class Cart {
       } else {
         updatedProduct = { id: id, qty: 1 };
         cart.products = [...cart.products, updatedProduct];
-      }
+      };
       cart.totalPrice = cart.totalPrice + +productPrice;
       // Write updated cart to file
       fs.writeFile(cartPathAndFile, JSON.stringify(cart), (err) => {
@@ -47,6 +59,9 @@ module.exports = class Cart {
       const updatedCart = { ...cart };
       // Analyze the cart and find existing product and quantity
       const product = updatedCart.products.find(prod => prod.id === id);
+      if (!product) {
+        return;
+      }
       // Remove product from cart and update price
       updatedCart.products = updatedCart.products.filter(prod => prod.id !== id);
       updatedCart.totalPrice = updatedCart.totalPrice - productPrice * product.qty;
